@@ -6,6 +6,12 @@ En esta práctica se implementa un módulo de software para gestionar retardos n
 
 El desarrollo se basa en la encapsulación de funciones en una API propia (`API_delay`), promoviendo modularidad, reutilización y buenas prácticas de programación en C.
 
+- En el archivo `.h` (API):
+  Se documenta qué hace cada función, incluyendo su propósito, parámetros de entrada y valores de retorno.  
+
+- En el archivo `.c` (implementación):
+  Se documenta cómo funciona internamente cada función, describiendo la lógica utilizada.
+
 ---
 
 ## Objetivo
