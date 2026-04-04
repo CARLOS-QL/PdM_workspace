@@ -24,6 +24,7 @@
 
 #include "API_delay.h"
 #include "API_debounce.h"
+#include "API_uart.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -35,8 +36,7 @@
 /* USER CODE BEGIN PD */
 
 /* Definición de periodos de parpadeo */
-#define LED_FREQ_100MS 100U
-#define LED_FREQ_500MS 500U
+
 
 /* USER CODE END PD */
 
@@ -46,7 +46,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-UART_HandleTypeDef huart2;
+//UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 
@@ -74,47 +74,23 @@ int main(void)
   HAL_Init();
   SystemClock_Config();
   MX_GPIO_Init();
-  MX_USART2_UART_Init();
+
+  //MX_USART2_UART_Init();
+
+  uartInit(9600);
   HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
 
- debounceFSM_init();						//Inicializa la MEF
- delay_t blinkDelay;
- tick_t currentPeriod = LED_FREQ_500MS;
- delayInit(&blinkDelay, currentPeriod);
 
-
-  /* USER CODE BEGIN WHILE */
+  uint8_t buffer[10] = "123456";
+  bool_t statusUart;
   while (1)
   {
 
-	  /* Actualizar periódicamente la MEF de anti-rebote */
-	  debounceFSM_update();
-
-	  /* Verificar si el botón fue presionado de forma válida */
-	  if (readKey())
-	  {
-		  /* Alternar el periodo entre 100ms y 500ms */
-		  if (currentPeriod == LED_FREQ_500MS)
-		  {
-			  currentPeriod = LED_FREQ_100MS;
-	      }
-		  else
-	      {
-			  currentPeriod = LED_FREQ_500MS;
-	      }
-		  /* Actualizar la duración del delay del LED */
-		  delayWrite(&blinkDelay, currentPeriod);
+	  statusUart = uartReceiveStringSize(buffer, 10);
+	  if (statusUart) {
+		  uartSendStringSize(buffer, 10);
 	  }
-
-	  /* Lógica de parpadeo del LED (No bloqueante) */
-	  if (delayRead(&blinkDelay))
-	  {
-		  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin); // Usar el pin correcto de tu placa
-	  }
-
-    /* USER CODE END WHILE */
   }
-
 }
 
 /**
@@ -179,18 +155,7 @@ static void MX_USART2_UART_Init(void)
   /* USER CODE BEGIN USART2_Init 1 */
 
   /* USER CODE END USART2_Init 1 */
-  huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
-  huart2.Init.WordLength = UART_WORDLENGTH_8B;
-  huart2.Init.StopBits = UART_STOPBITS_1;
-  huart2.Init.Parity = UART_PARITY_NONE;
-  huart2.Init.Mode = UART_MODE_TX_RX;
-  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&huart2) != HAL_OK)
-  {
-    Error_Handler();
-  }
+
   /* USER CODE BEGIN USART2_Init 2 */
 
   /* USER CODE END USART2_Init 2 */
@@ -234,14 +199,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_2 */
 }
 
-/* USER CODE BEGIN 4 */
 
-/* USER CODE END 4 */
-
-/**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
