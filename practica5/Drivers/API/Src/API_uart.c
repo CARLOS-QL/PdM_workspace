@@ -2,13 +2,13 @@
  * API_uart.c
  *
  *  Created on: Apr 3, 2026
- *      Author: CARLOSQL
+ *      Author: Carlos Quispe
  */
 
 #include <API_uart.h>
 
 
-UART_HandleTypeDef huart2;
+extern UART_HandleTypeDef huart2;
 
 bool_t uartInit(uint32_t baudRate)
 {
@@ -34,7 +34,6 @@ bool_t uartInit(uint32_t baudRate)
 
 bool_t uartSendString(uint8_t * pstring)
 {
-	HAL_StatusTypeDef status;
 	if (pstring == NULL) {
 		return false;
 	}
@@ -43,8 +42,8 @@ bool_t uartSendString(uint8_t * pstring)
 	if (size == 0U || size > UART_MAX_SIZE) {
 		return false;
 	}
-	status = HAL_UART_Transmit(&huart2, pstring, size, UART_TIMEOUT_MS);
-	if (status != HAL_OK) {
+
+	if (HAL_UART_Transmit(&huart2, pstring, size, TX_TIMEOUT_MS) != HAL_OK) {
 		return false;
 	}
 	return true;
@@ -54,8 +53,6 @@ bool_t uartSendString(uint8_t * pstring)
 
 bool_t uartSendStringSize(uint8_t * pstring, uint16_t size)
 {
-	HAL_StatusTypeDef status;
-
 	if (pstring == NULL) {
 		return false;
 	}
@@ -63,17 +60,16 @@ bool_t uartSendStringSize(uint8_t * pstring, uint16_t size)
 	if (size == 0U || size > UART_MAX_SIZE) {
 		return false;
 	}
-	status = HAL_UART_Transmit(&huart2, pstring, size, UART_TIMEOUT_MS);
-	if (status != HAL_OK) {
+
+	if (HAL_UART_Transmit(&huart2, pstring, size, TX_TIMEOUT_MS) != HAL_OK) {
 		return false;
 	}
 	return true;
 }
 
+
 bool_t uartReceiveStringSize(uint8_t * pstring, uint16_t size)
 {
-	HAL_StatusTypeDef status;
-
 	if (pstring == NULL) {
 		return false;
 	}
@@ -81,8 +77,8 @@ bool_t uartReceiveStringSize(uint8_t * pstring, uint16_t size)
 	if (size == 0U || size > UART_MAX_SIZE) {
 		return false;
 	}
-	status = HAL_UART_Receive(&huart2, pstring, size, UART_TIMEOUT_MS);
-	if (status != HAL_OK) {
+
+	if (HAL_UART_Receive(&huart2, pstring, size, RX_TIMEOUT_MS) != HAL_OK) {
 		return false;
 	}
 	return true;

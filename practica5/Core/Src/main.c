@@ -18,85 +18,40 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
-
 #include "API_delay.h"
 #include "API_debounce.h"
 #include "API_uart.h"
-/* USER CODE END Includes */
-
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-
-/* USER CODE END PTD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-/* Definición de periodos de parpadeo */
+#include "API_cmdparser.h"
 
 
-/* USER CODE END PD */
+#define UART_BAUDRATE	9600U
 
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
+UART_HandleTypeDef huart2;
 
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
-//UART_HandleTypeDef huart2;
-
-/* USER CODE BEGIN PV */
-
-/* USER CODE END PV */
-
-/* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_USART2_UART_Init(void);
-/* USER CODE BEGIN PFP */
+//static void MX_USART2_UART_Init(void);
 
-/* USER CODE END PFP */
 
-/* Private user code ---------------------------------------------------------*/
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
-/**
-  * @brief  The application entry point.
-  * @retval int
-  */
 int main(void)
 {
   HAL_Init();
   SystemClock_Config();
   MX_GPIO_Init();
 
-  //MX_USART2_UART_Init();
-
-  uartInit(9600);
-  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, 1);
+  uartInit(UART_BAUDRATE);		// Inicializa UART
+  cmdParserInit();				// Inicializa Parser
 
 
-  uint8_t buffer[10] = "123456";
-  bool_t statusUart;
   while (1)
   {
 
-	  statusUart = uartReceiveStringSize(buffer, 10);
-	  if (statusUart) {
-		  uartSendStringSize(buffer, 10);
-	  }
+	  cmdPoll();
   }
 }
 
-/**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+
+
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -140,33 +95,7 @@ void SystemClock_Config(void)
   }
 }
 
-/**
-  * @brief USART2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USART2_UART_Init(void)
-{
 
-  /* USER CODE BEGIN USART2_Init 0 */
-
-  /* USER CODE END USART2_Init 0 */
-
-  /* USER CODE BEGIN USART2_Init 1 */
-
-  /* USER CODE END USART2_Init 1 */
-
-  /* USER CODE BEGIN USART2_Init 2 */
-
-  /* USER CODE END USART2_Init 2 */
-
-}
-
-/**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
