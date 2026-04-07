@@ -42,12 +42,10 @@ Esto permite mayor flexibilidad en la configuración de la comunicación.
 
 Se modificaron las siguientes funciones para retornar bool_t, permitiendo validar si la operación fue exitosa:
 
-```c
 bool_t uartInit(uint32_t baudRate);
 bool_t uartSendString(uint8_t * pstring);
 bool_t uartSendStringSize(uint8_t * pstring, uint16_t size);
 bool_t uartReceiveStringSize(uint8_t * pstring, uint16_t size);
-```c
 
 ✔ Mejora la robustez del sistema␣␣
 ✔ Permite manejo de errores
