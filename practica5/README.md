@@ -17,6 +17,7 @@ Implementar:
 * Control del LED mediante comandos seriales
 
 Todo en un mismo proyecto, integrando los puntos 1 y 2 de la práctica.
+---
 
 ## 📂 Estructura del proyecto
 Siguiendo las buenas prácticas de encapsulamiento y modularización, el proyecto se organiza en:
@@ -25,15 +26,16 @@ Siguiendo las buenas prácticas de encapsulamiento y modularización, el proyect
 * API_cmdparser: Parser de comandos mediante MEF
 * API_led: Envoltorio (wrapper) para el control del LED
 * API_delay: Manejo de tiempos no bloqueantes (HAL_GetTick)
+---
 
 ##  Modificaciones Implementadas
 
 ✔ UART mejorada
 
 La función de inicialización ahora recibe el baudrate:
-
+```c
 bool_t uartInit(uint32_t baudRate);
-
+```
 Esto permite mayor flexibilidad en la configuración de la comunicación.
 
 ------------------------------------------------------------
@@ -42,15 +44,16 @@ Esto permite mayor flexibilidad en la configuración de la comunicación.
 
 Se modificaron las siguientes funciones para retornar bool_t, permitiendo validar si la operación fue exitosa:
 
+```c
 bool_t uartInit(uint32_t baudRate);
 bool_t uartSendString(uint8_t * pstring);
 bool_t uartSendStringSize(uint8_t * pstring, uint16_t size);
 bool_t uartReceiveStringSize(uint8_t * pstring, uint16_t size);
+```
 
 ✔ Mejora la robustez del sistema␣␣
 ✔ Permite manejo de errores
 
-------------------------------------------------------------
 
 ✔ Uso de isCommandPending
 
