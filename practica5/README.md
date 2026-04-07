@@ -26,8 +26,45 @@ Siguiendo las buenas prácticas de encapsulamiento y modularización, el proyect
 * API_led: Envoltorio (wrapper) para el control del LED
 * API_delay: Manejo de tiempos no bloqueantes (HAL_GetTick)
 
-##  Funcionamiento de la MEF
-🔄 Funcionamiento de la MEF
+##  Modificaciones Implementadas
+
+✔ UART mejorada
+
+La función de inicialización ahora recibe el baudrate:
+
+bool_t uartInit(uint32_t baudRate);
+
+Esto permite mayor flexibilidad en la configuración de la comunicación.
+
+------------------------------------------------------------
+
+✔ Funciones UART con retorno de estado
+
+Se modificaron las siguientes funciones para retornar bool_t, permitiendo validar si la operación fue exitosa:
+
+bool_t uartInit(uint32_t baudRate);
+bool_t uartSendString(uint8_t * pstring);
+bool_t uartSendStringSize(uint8_t * pstring, uint16_t size);
+bool_t uartReceiveStringSize(uint8_t * pstring, uint16_t size);
+
+✔ Mejora la robustez del sistema
+✔ Permite manejo de errores
+
+------------------------------------------------------------
+
+✔ Uso de isCommandPending
+
+Se implementó la variable:
+
+isCommandPending
+
+Para permitir la transición a los estados:
+
+- CMD_PROCESS
+- CMD_EXEC
+- CMD_ERROR
+
+## 🔄 Funcionamiento de la MEF
 
 La MEF del parser permite:
 
@@ -52,6 +89,7 @@ Estados principales:
 * STATUS
 * BAUD?
 * BAUD=XXXX
+  
 🧪 Características del sistema
 * Comunicación UART en polling (sin interrupciones)
 * Validación de parámetros
