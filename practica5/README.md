@@ -47,6 +47,7 @@ bool_t uartInit(uint32_t baudRate);
 bool_t uartSendString(uint8_t * pstring);
 bool_t uartSendStringSize(uint8_t * pstring, uint16_t size);
 bool_t uartReceiveStringSize(uint8_t * pstring, uint16_t size);
+```c
 
 ✔ Mejora la robustez del sistema␣␣
 ✔ Permite manejo de errores
@@ -57,7 +58,9 @@ bool_t uartReceiveStringSize(uint8_t * pstring, uint16_t size);
 
 Se implementó la variable:
 
+```c
 isCommandPending
+```c
 
 Para permitir la transición a los estados:
 
