@@ -18,19 +18,46 @@ Implementar:
 
 Todo en un mismo proyecto, integrando los puntos 1 y 2 de la práctica.
 
-## 📂 Estructura del Módulo `API_debounce`
+## 📂 Estructura del proyecto
 Siguiendo las buenas prácticas de encapsulamiento y modularización, el proyecto se organiza en:
 
-* **`API_debounce.h`**: Contiene los prototipos de las funciones públicas (`init`, `update`, `readKey`).
-* **`API_debounce.c`**: Contiene la implementación de la MEF, los estados privados (`BUTTON_UP`, `BUTTON_FALLING`, `BUTTON_DOWN`, `BUTTON_RAISING`) y las variables de estado protegidas con `static`.
-* **`API_delay`**: Módulo desarrollado en la práctica anterior para la gestión de tiempos no bloqueantes utilizando `HAL_GetTick()`.
+* API_uart: Manejo de comunicación UART
+* API_cmdparser: Parser de comandos mediante MEF
+* API_led: Envoltorio (wrapper) para el control del LED
+* API_delay: Manejo de tiempos no bloqueantes (HAL_GetTick)
 
 ##  Funcionamiento de la MEF
-La lógica de anti-rebote utiliza un tiempo de **40 ms** basado en el módulo `API_delay`.
+🔄 Funcionamiento de la MEF
 
-1. **`debounceFSM_init()`**: Inicializa el sistema en el estado `BUTTON_UP` y resetea las banderas internas.
-2. **`debounceFSM_update()`**: Se encarga de monitorear el pin del pulsador y transicionar entre estados para filtrar el ruido mecánico. Debe llamarse periódicamente en el bucle principal.
-3. **`readKey()`**: Funciona como una interfaz para el programa principal. Devuelve `true` si se detectó una pulsación válida y resetea automáticamente la variable interna a `false`.
+La MEF del parser permite:
+
+* Recepción de caracteres por UART
+* Construcción de líneas completas
+* Validación de comandos
+* Ejecución de acciones
+
+Estados principales:
+
+* CMD_IDLE
+* CMD_RECEIVING
+* CMD_PROCESS
+* CMD_EXEC
+* CMD_ERROR
+* 
+💡 Comandos soportados
+* HELP
+* LED ON
+* LED OFF
+* LED TOGGLE
+* STATUS
+* BAUD?
+* BAUD=XXXX
+🧪 Características del sistema
+* Comunicación UART en polling (sin interrupciones)
+* Validación de parámetros
+* Manejo de errores
+* Arquitectura modular
+* Uso de variables static para encapsulamiento
 
 ## 🛠️ Requisitos de Hardware
 * **Placa**: STM32 NUCLEO-F4 (STM32F446RE).
