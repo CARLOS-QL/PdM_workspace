@@ -61,7 +61,7 @@ Se implementó la variable:
 
 ```c
 isCommandPending
-```c
+```
 
 Para permitir la transición a los estados:
 
