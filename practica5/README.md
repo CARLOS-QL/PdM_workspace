@@ -1,15 +1,22 @@
-# Práctica 4: Implementación de MEF Anti-rebote (Debounce)
+# Práctica 5: Implementación de UART y Parser de Comandos con MEF
 
 ## Autor: Carlos Quispe
 
 ## Descripción
 
-Este proyecto implementa una **Máquina de Estados Finitos (MEF)** para eliminar el rebote mecánico de un pulsador mediante software, utilizando controladores (drivers) modulares y retardos no bloqueantes.
+Este proyecto implementa una interfaz de comunicación serie utilizando UART en modo polling, junto con un parser de comandos basado en una Máquina de Estados Finitos (MEF).
+Se desarrolla una arquitectura modular mediante controladores (drivers) desacoplados, permitiendo la interpretación de comandos recibidos por UART y la ejecución de acciones sobre el hardware (LED).
 
 
 
 ## 🎯 Objetivo
-El objetivo es validar la pulsación del botón azul de la placa NUCLEO-F4 para cambiar la frecuencia de parpadeo de un LED entre **100 ms** y **500 ms**, garantizando que cada pulsación sea detectada una sola vez sin falsos positivos.
+Implementar:
+
+* Un módulo UART para transmisión y recepción por polling
+* Un parser de comandos mediante una MEF
+* Control del LED mediante comandos seriales
+
+Todo en un mismo proyecto, integrando los puntos 1 y 2 de la práctica.
 
 ## 📂 Estructura del Módulo `API_debounce`
 Siguiendo las buenas prácticas de encapsulamiento y modularización, el proyecto se organiza en:
