@@ -51,9 +51,8 @@ bool_t uartSendStringSize(uint8_t * pstring, uint16_t size);
 bool_t uartReceiveStringSize(uint8_t * pstring, uint16_t size);
 ```
 
-✔ Mejora la robustez del sistema
-
-✔ Permite manejo de errores
+* Mejora la robustez del sistema
+* Permite manejo de errores
 
 
 ✔ Uso de isCommandPending
