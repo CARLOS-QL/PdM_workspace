@@ -9,6 +9,7 @@
 #include "sensor_fsm.h"
 #include "mcp9700a.h"
 #include "uart_drv.h"
+#include "lcd_pcf857.h"
 #include "main.h"
 
 #define SENSOR_PERIOD_MS   500U
@@ -143,7 +144,10 @@ void sensorFsmUpdate(void)
 	case STATE_OUTPUT:
 
 		char msg[64];
-		sprintf(msg, "Temp: %.2f C\r\n", temperature);
+		sprintf(msg, "Temp: %.2f C", temperature);
+
+		ClrLcd();
+		SacaTextoLcd(msg);
 		//uartSendString((uint8_t*) msg);
 
 
