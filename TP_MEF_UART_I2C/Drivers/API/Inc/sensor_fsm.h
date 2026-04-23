@@ -44,5 +44,11 @@ float sensorGetSetpoint(void);
  */
 float sensorGetHysteresis(void);
 
+/**
+ * @brief Obtiene el valor actual de la temperatura.
+ * @return Valor de la temperatura configurada en grados Celsius.
+ */
+float sensorGetTemperature(void);
+
 
 #endif /* API_INC_SENSOR_FSM_H_ */

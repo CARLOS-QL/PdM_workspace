@@ -34,6 +34,14 @@ static uint8_t outputState = 0;
 
 
 /**
+ * @brief Obtiene el valor actual de la temperatura.
+ * @return float en grados Celsius.
+ */
+float sensorGetTemperature(void){
+	  return temperature;
+}
+
+/**
  * @brief Inicializa la máquina de estados del sensor.
  * Configura el estado inicial del sistema en IDLE y almacena
  * el tiempo actual como referencia para la ejecución periódica
@@ -136,7 +144,7 @@ void sensorFsmUpdate(void)
 
 		char msg[64];
 		sprintf(msg, "Temp: %.2f C\r\n", temperature);
-		uartSendString((uint8_t*) msg);
+		//uartSendString((uint8_t*) msg);
 
 
 		if (outputState)

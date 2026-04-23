@@ -25,6 +25,7 @@
 #include "mcp9700a.h"
 #include "sensor_fsm.h"
 #include "uart_drv.h"
+#include "uart_fsm.h"
 
 
 ADC_HandleTypeDef hadc1;
@@ -48,23 +49,25 @@ int main(void)
 	uartInit(115200);
 	adcInit();
 
-	sensorFsmInit();
-
-	//uint8_t dato[MAX_LEN];
+	sensorFsmInit();		// Inicializa MEF sensor
+	uartFsmInit();			// Inicializa MEF UART
 
 
 	while (1)
 	{
 		sensorFsmUpdate();
-		/*		float temperature = 0.0f;
+		uartFsmUpdate();
+
+	}
+}
+
+/*		float temperature = 0.0f;
 		if (mcp9700aReadTemperature(&temperature) == MCP9700A_OK)
 		{
 			sprintf((char*) dato, "Temperatura = %.2f C\r\n", temperature);
 			HAL_UART_Transmit(&huart2, dato, strlen((const char*) dato), 100);
 		}
 		 HAL_Delay(500); // 500 ms entre lecturas  */
-	}
-}
 
 
 void SystemClock_Config(void)
